@@ -36,4 +36,4 @@ jobs:
         renv::restore()
     
     - name: Render report
-      run: make analysis/analysis.Rmd
+      run: make analysis/analysis.html
