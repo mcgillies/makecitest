@@ -1,0 +1,22 @@
+---
+title: "Penguin Analysis"
+author: "Daniel Chen"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::html_document2
+---
+
+
+
+
+
+```{r setup}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(palmerpenguins)
+```
+
+```{r data, caption = "data frame"}
+knitr::kable(penguins[1:5, 1:5], format = "markdown")
