@@ -20,3 +20,4 @@ library(palmerpenguins)
 
 ```{r data, caption = "data frame"}
 knitr::kable(penguins[1:5, 1:5], format = "markdown")
+```
