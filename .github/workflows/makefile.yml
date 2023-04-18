@@ -1,0 +1,39 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    env: 
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-renv@v2
+      with:
+        profile: '"shiny"'
+      
+    - name: Cache packages
+      uses: actions/cache@v1
+      with:
+        path: ${{ env.RENV_PATHS_ROOT }}
+        key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-renv-
+    - name: Restore packages
+      shell: Rscript {0}
+      run: |
+        if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+        renv::activate()
+        renv::restore()
+    
+    - name: Render report
+      run: make analysis/analysis.Rmd
